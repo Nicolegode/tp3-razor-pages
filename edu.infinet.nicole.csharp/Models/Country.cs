@@ -15,5 +15,7 @@ namespace edu.infinet.nicole.csharp.Models
         public long Population { get; set; }
         
         public string? Capital { get; set; }
+        
+        public List<City> Cities { get; set; } = new List<City>();
     }
 }

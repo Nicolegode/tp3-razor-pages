@@ -9,9 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/City.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,9 +44,8 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/City.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -118,7 +118,7 @@
       <updated>1758290312925</updated>
       <workItem from="1758290313992" duration="10517000" />
       <workItem from="1758304606126" duration="1237000" />
-      <workItem from="1758309786281" duration="2708000" />
+      <workItem from="1758309786281" duration="3769000" />
     </task>
     <task id="LOCAL-00001" summary="Exercicio 1 -  Criando o Projeto e Estruturando o DbContext">
       <option name="closed" value="true" />
@@ -128,7 +128,23 @@
       <option name="project" value="LOCAL" />
       <updated>1758292859863</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="adicionando a tabela">
+      <option name="closed" value="true" />
+      <created>1758314379633</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758314379633</updated>
+    </task>
+    <task id="LOCAL-00003" summary=".">
+      <option name="closed" value="true" />
+      <created>1758314388031</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1758314388031</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,7 +166,9 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Exercicio 1 -  Criando o Projeto e Estruturando o DbContext" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 1 -  Criando o Projeto e Estruturando o DbContext" />
+    <MESSAGE value="adicionando a tabela" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -11,5 +11,6 @@ namespace edu.infinet.nicole.csharp.Data
         }
 
         public DbSet<Country> Countries { get; set; } = default!;
+        public DbSet<City> Cities { get; set; } = default!;
     }
 }
