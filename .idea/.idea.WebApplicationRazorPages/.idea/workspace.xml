@@ -9,10 +9,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CountryConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/City.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/City.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +47,11 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CountryConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/City.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Models/City.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -119,7 +126,7 @@
       <updated>1758290312925</updated>
       <workItem from="1758290313992" duration="10517000" />
       <workItem from="1758304606126" duration="1237000" />
-      <workItem from="1758309786281" duration="4176000" />
+      <workItem from="1758309786281" duration="5635000" />
     </task>
     <task id="LOCAL-00001" summary="Exercicio 1 -  Criando o Projeto e Estruturando o DbContext">
       <option name="closed" value="true" />
@@ -153,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758315609382</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade">
+      <option name="closed" value="true" />
+      <created>1758315861095</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758315861095</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,7 +193,8 @@
     <MESSAGE value="adicionando a tabela" />
     <MESSAGE value="." />
     <MESSAGE value="Exercicio 3 - Mapeando Relacionamento 1:N entre Países e Cidades" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 3 - Mapeando Relacionamento 1:N entre Países e Cidades" />
+    <MESSAGE value="Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
