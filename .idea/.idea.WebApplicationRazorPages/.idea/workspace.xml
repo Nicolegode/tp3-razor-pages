@@ -9,12 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +70,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.edu.infinet.nicole.csharp: http.executor": "dotTrace Profiler",
+    ".NET Launch Settings Profile.edu.infinet.nicole.csharp: http.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",

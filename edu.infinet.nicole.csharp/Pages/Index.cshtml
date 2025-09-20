@@ -7,17 +7,7 @@
 @foreach (var city in Model.Cities)
 {
     <div>
-        <h3>@city.Name - @city.Country?.Name</h3>
-        
-        @if (city.Properties.Any())
-        {
-            <ul>
-                @foreach (var property in city.Properties)
-                {
-                    <li>@property.Name</li>
-                }
-            </ul>
-        }
+        <h3><a href="/city/@city.Name">@city.Name</a> - @city.Country?.Name</h3>
     </div>
     <hr />
 }

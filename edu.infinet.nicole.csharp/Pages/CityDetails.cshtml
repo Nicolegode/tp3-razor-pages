@@ -1,0 +1,22 @@
+@page "/city/{name}"
+@model CityDetailsModel
+
+<h1>@Model.City?.Name</h1>
+<p>País: @Model.City?.Country?.Name</p>
+
+<h3>Propriedades:</h3>
+@if (Model.City?.Properties.Any() == true)
+{
+    <ul>
+        @foreach (var property in Model.City.Properties)
+        {
+            <li>@property.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Nenhuma propriedade</p>
+}
+
+<a href="/">Voltar</a>
