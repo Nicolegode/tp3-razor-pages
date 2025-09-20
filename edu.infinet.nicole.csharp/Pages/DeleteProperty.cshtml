@@ -1,0 +1,16 @@
+@page "/DeleteProperty/{id:int}"
+@model DeletePropertyModel
+
+<h1>Confirmar Exclusão</h1>
+
+<div class="alert alert-warning">
+    <h4>⚠️ Tem certeza que deseja excluir esta propriedade?</h4>
+    <p><strong>Nome:</strong> @Model.Property.Name</p>
+    <p><strong>Preço por noite:</strong> @Model.Property.PricePerNight.ToString("C")</p>
+    <p><small class="text-muted">Esta ação pode ser desfeita posteriormente (soft delete).</small></p>
+</div>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">✅ Confirmar Exclusão</button>
+    <a href="javascript:history.back()" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -9,10 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/EditProperty.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/EditProperty.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" afterDir="false" />
@@ -207,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758330599724</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Exercício 10 - Atualizando Registros com Segurança">
+      <option name="closed" value="true" />
+      <created>1758333067462</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1758333067462</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,7 +250,8 @@
     <MESSAGE value="Exercicio 6 - Carregando Dados com Seed Data" />
     <MESSAGE value="Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL" />
     <MESSAGE value="Exercício 9 Inserindo uma Nova Propriedade via Formulário" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercício 9 Inserindo uma Nova Propriedade via Formulário" />
+    <MESSAGE value="Exercício 10 - Atualizando Registros com Segurança" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exercício 10 - Atualizando Registros com Segurança" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

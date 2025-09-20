@@ -17,7 +17,7 @@ namespace edu.infinet.nicole.csharp.Services
         {
             return await _context.Cities
                 .Include(c => c.Country)
-                .Include(c => c.Properties)
+                .Include(c => c.Properties) 
                 .ToListAsync();
         }
 
@@ -25,7 +25,7 @@ namespace edu.infinet.nicole.csharp.Services
         {
             return await _context.Cities
                 .Include(c => c.Country)
-                .Include(c => c.Properties)
+                .Include(c => c.Properties) 
                 .FirstOrDefaultAsync(c => EF.Functions.Collate(c.Name, "NOCASE") == name);
         }
 
@@ -40,6 +40,28 @@ namespace edu.infinet.nicole.csharp.Services
             return await _context.Cities
                 .OrderBy(c => c.Name)
                 .ToListAsync();
+        }
+        
+        public async Task<Property?> GetPropertyByIdAsync(int id)
+        {
+            return await _context.Properties.FindAsync(id);
+        }
+
+        public async Task UpdatePropertyAsync(Property property)
+        {
+            _context.Properties.Update(property);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task DeletePropertyAsync(int id)
+        {
+            var property = await _context.Properties.FindAsync(id);
+            
+            if (property != null)
+            {
+                property.DeletedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

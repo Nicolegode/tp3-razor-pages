@@ -5,7 +5,7 @@
 <p>País: @Model.City?.Country?.Name</p>
 
 <h3>Propriedades:</h3>
-@if (Model.City?.Properties.Any() == true)
+@if (Model.City?.Properties?.Any() == true)
 {
     <ul>
         @foreach (var property in Model.City.Properties)
@@ -13,6 +13,7 @@
             <li>
                 @property.Name 
                 <a href="/EditProperty/@property.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                <a href="/DeleteProperty/@property.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
             </li>
         }
     </ul>

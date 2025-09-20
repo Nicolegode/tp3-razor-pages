@@ -13,5 +13,7 @@ namespace edu.infinet.nicole.csharp.Models
         
         public int CityId { get; set; }
         public City City { get; set; } = null!;
+        
+        public DateTime? DeletedAt { get; set; }
     }
 }

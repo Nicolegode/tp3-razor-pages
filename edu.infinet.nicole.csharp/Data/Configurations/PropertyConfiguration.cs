@@ -11,8 +11,12 @@ namespace edu.infinet.nicole.csharp.Data.Configurations
             builder.Property(p => p.Name)
                 .HasMaxLength(200)
                 .HasColumnName("PropertyName");
-
-            // Dados iniciais
+            
+            builder.Property(p => p.DeletedAt)
+                .IsRequired(false);
+            
+            builder.HasQueryFilter(p => p.DeletedAt == null);
+            
             builder.HasData(
                 new Property { Id = 1, Name = "Pão de Açúcar", PricePerNight = 280.00m, CityId = 1 },
                 new Property { Id = 2, Name = "Cristo Redentor", PricePerNight = 180.00m, CityId = 1 },

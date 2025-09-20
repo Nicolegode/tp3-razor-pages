@@ -7,5 +7,9 @@ namespace edu.infinet.nicole.csharp.Services
         Task<List<City>> GetAllAsync();
         Task<City?> GetByNameAsync(string name);
         Task AddPropertyAsync(Property property);
+        Task DeletePropertyAsync(int id);
+        Task<Property?> GetPropertyByIdAsync(int id);
+        Task UpdatePropertyAsync(Property property); 
+        Task<List<City>> GetCitiesForDropdownAsync();
     }
 }
