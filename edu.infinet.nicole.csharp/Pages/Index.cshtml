@@ -1,16 +1,23 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Destinos Turísticos";
+    ViewData["Title"] = "Cities";
 }
 
-<div class="text-center">
-    <h1>Destinos Turísticos</h1>
-    <p>Explore países e pontos turísticos ao redor do mundo</p>
-    
-    <div class="mt-4">
-        <a class="btn btn-primary" href="#" role="button">
-            Ver Países
-        </a>
+@foreach (var city in Model.Cities)
+{
+    <div>
+        <h3>@city.Name - @city.Country?.Name</h3>
+        
+        @if (city.Properties.Any())
+        {
+            <ul>
+                @foreach (var property in city.Properties)
+                {
+                    <li>@property.Name</li>
+                }
+            </ul>
+        }
     </div>
-</div>
+    <hr />
+}

@@ -1,18 +1,23 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using edu.infinet.nicole.csharp.Models;
+using edu.infinet.nicole.csharp.Services;
 
-namespace edu.infinet.nicole.csharp.Pages;
-
-public class IndexModel : PageModel
+namespace edu.infinet.nicole.csharp.Pages
 {
-    private readonly ILogger<IndexModel> _logger;
-
-    public IndexModel(ILogger<IndexModel> logger)
+    public class IndexModel : PageModel
     {
-        _logger = logger;
-    }
+        private readonly ICityService _cityService;
 
-    public void OnGet()
-    {
+        public IndexModel(ICityService cityService)
+        {
+            _cityService = cityService;
+        }
+
+        public List<City> Cities { get; set; } = new();
+
+        public async Task OnGetAsync()
+        {
+            Cities = await _cityService.GetAllAsync();
+        }
     }
 }

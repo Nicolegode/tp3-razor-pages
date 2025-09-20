@@ -9,15 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CountryConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CountryConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +53,8 @@
     <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Models/City.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -69,22 +68,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.edu.infinet.nicole.csharp: http.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.edu.infinet.nicole.csharp: http.executor": "dotTrace Profiler",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "HotReloadSettingsPage",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.edu.infinet.nicole.csharp: http">
     <configuration name="edu.infinet.nicole.csharp: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj" />
@@ -128,7 +128,7 @@
       <updated>1758290312925</updated>
       <workItem from="1758290313992" duration="10517000" />
       <workItem from="1758304606126" duration="1237000" />
-      <workItem from="1758309786281" duration="10091000" />
+      <workItem from="1758309786281" duration="13391000" />
     </task>
     <task id="LOCAL-00001" summary="Exercicio 1 -  Criando o Projeto e Estruturando o DbContext">
       <option name="closed" value="true" />
@@ -178,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758317260645</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Exercicio 6 - Carregando Dados com Seed Data">
+      <option name="closed" value="true" />
+      <created>1758323084532</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758323084532</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,7 +213,8 @@
     <MESSAGE value="Exercicio 3 - Mapeando Relacionamento 1:N entre Países e Cidades" />
     <MESSAGE value="Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade" />
     <MESSAGE value="Exercicio 5 - Aplicando Fluent API para Configuração de Entidades" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 5 - Aplicando Fluent API para Configuração de Entidades" />
+    <MESSAGE value="Exercicio 6 - Carregando Dados com Seed Data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 6 - Carregando Dados com Seed Data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,13 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using edu.infinet.nicole.csharp.Data;
+using edu.infinet.nicole.csharp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<CityBreaksContext>(options =>
-    // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<ICityService, CityService>();
 
 var app = builder.Build();
 
