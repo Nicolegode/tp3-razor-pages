@@ -10,13 +10,16 @@
     <ul>
         @foreach (var property in Model.City.Properties)
         {
-            <li>@property.Name</li>
+            <li>
+                @property.Name 
+                <a href="/EditProperty/@property.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+            </li>
         }
     </ul>
 }
 else
 {
-    <p>Nenhuma propriedade</p>
+    <p>Nenhuma propriedade cadastrada.</p>
 }
 
-<a href="/">Voltar</a>
+<a href="/" class="btn btn-secondary">Voltar</a>
