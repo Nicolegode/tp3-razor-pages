@@ -9,7 +9,9 @@ namespace edu.infinet.nicole.csharp.Services
         Task AddPropertyAsync(Property property);
         Task DeletePropertyAsync(int id);
         Task<Property?> GetPropertyByIdAsync(int id);
-        Task UpdatePropertyAsync(Property property); 
+        Task UpdatePropertyAsync(Property property);
         Task<List<City>> GetCitiesForDropdownAsync();
+        
+        Task<List<Property>> GetFilteredAsync(decimal? minPrice, decimal? maxPrice, string? cityName, string? propertyName);
     }
 }

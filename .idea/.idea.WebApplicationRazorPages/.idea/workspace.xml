@@ -9,18 +9,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +55,7 @@
     <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Models/City.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Services/CityService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -68,7 +65,7 @@
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="SWEA" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -220,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758333067462</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Exercício 11 - Remoção Lógica com Soft Delete">
+      <option name="closed" value="true" />
+      <created>1758334999674</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758334999674</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,7 +256,8 @@
     <MESSAGE value="Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL" />
     <MESSAGE value="Exercício 9 Inserindo uma Nova Propriedade via Formulário" />
     <MESSAGE value="Exercício 10 - Atualizando Registros com Segurança" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercício 10 - Atualizando Registros com Segurança" />
+    <MESSAGE value="Exercício 11 - Remoção Lógica com Soft Delete" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exercício 11 - Remoção Lógica com Soft Delete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

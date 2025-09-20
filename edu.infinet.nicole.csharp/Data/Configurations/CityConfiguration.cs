@@ -11,7 +11,6 @@ namespace edu.infinet.nicole.csharp.Data.Configurations
             builder.Property(c => c.Name)
                 .HasColumnName("CityName");
 
-            // Dados iniciais
             builder.HasData(
                 new City { Id = 1, Name = "Rio de Janeiro", CountryId = 1 },
                 new City { Id = 2, Name = "São Paulo", CountryId = 1 },

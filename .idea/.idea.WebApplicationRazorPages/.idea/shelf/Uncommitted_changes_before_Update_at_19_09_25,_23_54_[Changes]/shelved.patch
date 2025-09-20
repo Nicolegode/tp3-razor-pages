@@ -1,0 +1,450 @@
+Index: edu.infinet.nicole.csharp/Services/PropertyService.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Microsoft.EntityFrameworkCore;\nusing edu.infinet.nicole.csharp.Data;\nusing edu.infinet.nicole.csharp.Models;\n\nnamespace edu.infinet.nicole.csharp.Services\n{\n    public class PropertyService : IPropertyService\n    {\n        private readonly CityBreaksContext _context;\n\n        public PropertyService(CityBreaksContext context)\n        {\n            _context = context;\n        }\n\n        public async Task<bool> CreateAsync(Property property)\n        {\n            try\n            {\n                await _context.Properties.AddAsync(property);\n                await _context.SaveChangesAsync();\n                return true;\n            }\n            catch\n            {\n                return false;\n            }\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Services/PropertyService.cs b/edu.infinet.nicole.csharp/Services/PropertyService.cs
+--- a/edu.infinet.nicole.csharp/Services/PropertyService.cs	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/edu.infinet.nicole.csharp/Services/PropertyService.cs	(date 1758335844021)
+@@ -17,7 +17,39 @@
+         {
+             try
+             {
+-                await _context.Properties.AddAsync(property);
++                _context.Properties.Add(property);
++                await _context.SaveChangesAsync();
++                return true;
++            }
++            catch
++            {
++                return false;
++            }
++        }
++
++        public async Task<Property?> GetByIdAsync(int id)
++        {
++            return await _context.Properties
++                .Include(p => p.City)
++                .ThenInclude(c => c.Country)
++                .FirstOrDefaultAsync(p => p.Id == id && p.DeletedAt == null);
++        }
++
++        public async Task<bool> UpdateAsync(int id, string name, decimal pricePerNight, int cityId)
++        {
++            try
++            {
++                var property = await _context.Properties.FindAsync(id);
++                
++                if (property == null || property.DeletedAt != null)
++                {
++                    return false;
++                }
++
++                property.Name = name;
++                property.PricePerNight = pricePerNight;
++                property.CityId = cityId;
++
+                 await _context.SaveChangesAsync();
+                 return true;
+             }
+@@ -26,5 +58,58 @@
+                 return false;
+             }
+         }
++
++        public async Task<bool> DeleteAsync(int id)
++        {
++            try
++            {
++                var property = await _context.Properties.FindAsync(id);
++                
++                if (property == null || property.DeletedAt != null)
++                {
++                    return false;
++                }
++
++                property.DeletedAt = DateTime.UtcNow;
++                await _context.SaveChangesAsync();
++                return true;
++            }
++            catch
++            {
++                return false;
++            }
++        }
++
++        public async Task<List<Property>> GetFilteredAsync(decimal? minPrice, decimal? maxPrice, string? cityName, string? propertyName)
++        {
++            IQueryable<Property> query = _context.Properties
++                .Where(p => p.DeletedAt == null)
++                .Include(p => p.City)
++                .ThenInclude(c => c.Country);
++
++            if (minPrice.HasValue)
++            {
++                query = query.Where(p => p.PricePerNight >= minPrice.Value);
++            }
++
++            if (maxPrice.HasValue)
++            {
++                query = query.Where(p => p.PricePerNight <= maxPrice.Value);
++            }
++
++            if (!string.IsNullOrWhiteSpace(cityName))
++            {
++                query = query.Where(p => EF.Functions.Collate(p.City.Name, "NOCASE").Contains(cityName));
++            }
++
++            if (!string.IsNullOrWhiteSpace(propertyName))
++            {
++                query = query.Where(p => EF.Functions.Collate(p.Name, "NOCASE").Contains(propertyName));
++            }
++
++            return await query
++                .OrderBy(p => p.Name)
++                .ToListAsync();
++        }
+     }
+ }
+\ No newline at end of file
+Index: edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Metadata.Builders;\nusing edu.infinet.nicole.csharp.Models;\n\nnamespace edu.infinet.nicole.csharp.Data.Configurations\n{\n    public class PropertyConfiguration : IEntityTypeConfiguration<Property>\n    {\n        public void Configure(EntityTypeBuilder<Property> builder)\n        {\n            builder.Property(p => p.Name)\n                .HasMaxLength(200)\n                .HasColumnName(\"PropertyName\");\n            \n            builder.Property(p => p.DeletedAt)\n                .IsRequired(false);\n            \n            builder.HasQueryFilter(p => p.DeletedAt == null);\n            \n            builder.HasData(\n                new Property { Id = 1, Name = \"Pão de Açúcar\", PricePerNight = 280.00m, CityId = 1 },\n                new Property { Id = 2, Name = \"Cristo Redentor\", PricePerNight = 180.00m, CityId = 1 },\n                new Property { Id = 3, Name = \"MASP\", PricePerNight = 220.00m, CityId = 2 },\n                new Property { Id = 4, Name = \"Caminito\", PricePerNight = 150.00m, CityId = 3 },\n                new Property { Id = 5, Name = \"Aconcágua\", PricePerNight = 120.00m, CityId = 4 },\n                new Property { Id = 6, Name = \"Torre Eiffel\", PricePerNight = 450.00m, CityId = 5 },\n                new Property { Id = 7, Name = \"Promenade des Anglais\", PricePerNight = 320.00m, CityId = 6 },\n                new Property { Id = 8, Name = \"Sagrada Família\", PricePerNight = 290.00m, CityId = 7 },\n                new Property { Id = 9, Name = \"Alcázar de Sevilha\", PricePerNight = 160.00m, CityId = 8 },\n                new Property { Id = 10, Name = \"Coliseu\", PricePerNight = 380.00m, CityId = 9 },\n                new Property { Id = 11, Name = \"Ponte Vecchio\", PricePerNight = 340.00m, CityId = 10 },\n                new Property { Id = 12, Name = \"Torre de Belém\", PricePerNight = 140.00m, CityId = 11 },\n                new Property { Id = 13, Name = \"Livraria Lello\", PricePerNight = 110.00m, CityId = 12 },\n                new Property { Id = 14, Name = \"Estátua da Liberdade\", PricePerNight = 520.00m, CityId = 13 },\n                new Property { Id = 15, Name = \"South Beach\", PricePerNight = 380.00m, CityId = 14 },\n                new Property { Id = 16, Name = \"CN Tower\", PricePerNight = 240.00m, CityId = 15 },\n                new Property { Id = 17, Name = \"Stanley Park\", PricePerNight = 200.00m, CityId = 16 },\n                new Property { Id = 18, Name = \"Chichen Itzá\", PricePerNight = 350.00m, CityId = 17 },\n                new Property { Id = 19, Name = \"Cenotes\", PricePerNight = 280.00m, CityId = 18 },\n                new Property { Id = 20, Name = \"Cerro San Cristóbal\", PricePerNight = 160.00m, CityId = 19 },\n                new Property { Id = 21, Name = \"Casa Pablo Neruda\", PricePerNight = 130.00m, CityId = 20 }\n            );\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs b/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs
+--- a/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs	(date 1758336766536)
+@@ -18,27 +18,36 @@
+             builder.HasQueryFilter(p => p.DeletedAt == null);
+             
+             builder.HasData(
+-                new Property { Id = 1, Name = "Pão de Açúcar", PricePerNight = 280.00m, CityId = 1 },
+-                new Property { Id = 2, Name = "Cristo Redentor", PricePerNight = 180.00m, CityId = 1 },
+-                new Property { Id = 3, Name = "MASP", PricePerNight = 220.00m, CityId = 2 },
+-                new Property { Id = 4, Name = "Caminito", PricePerNight = 150.00m, CityId = 3 },
+-                new Property { Id = 5, Name = "Aconcágua", PricePerNight = 120.00m, CityId = 4 },
+-                new Property { Id = 6, Name = "Torre Eiffel", PricePerNight = 450.00m, CityId = 5 },
+-                new Property { Id = 7, Name = "Promenade des Anglais", PricePerNight = 320.00m, CityId = 6 },
+-                new Property { Id = 8, Name = "Sagrada Família", PricePerNight = 290.00m, CityId = 7 },
+-                new Property { Id = 9, Name = "Alcázar de Sevilha", PricePerNight = 160.00m, CityId = 8 },
+-                new Property { Id = 10, Name = "Coliseu", PricePerNight = 380.00m, CityId = 9 },
+-                new Property { Id = 11, Name = "Ponte Vecchio", PricePerNight = 340.00m, CityId = 10 },
+-                new Property { Id = 12, Name = "Torre de Belém", PricePerNight = 140.00m, CityId = 11 },
+-                new Property { Id = 13, Name = "Livraria Lello", PricePerNight = 110.00m, CityId = 12 },
+-                new Property { Id = 14, Name = "Estátua da Liberdade", PricePerNight = 520.00m, CityId = 13 },
+-                new Property { Id = 15, Name = "South Beach", PricePerNight = 380.00m, CityId = 14 },
+-                new Property { Id = 16, Name = "CN Tower", PricePerNight = 240.00m, CityId = 15 },
+-                new Property { Id = 17, Name = "Stanley Park", PricePerNight = 200.00m, CityId = 16 },
+-                new Property { Id = 18, Name = "Chichen Itzá", PricePerNight = 350.00m, CityId = 17 },
+-                new Property { Id = 19, Name = "Cenotes", PricePerNight = 280.00m, CityId = 18 },
+-                new Property { Id = 20, Name = "Cerro San Cristóbal", PricePerNight = 160.00m, CityId = 19 },
+-                new Property { Id = 21, Name = "Casa Pablo Neruda", PricePerNight = 130.00m, CityId = 20 }
++                new Property { Id = 1, Name = "Hotel Copacabana Palace", PricePerNight = 800.00m, CityId = 1 },
++                new Property { Id = 2, Name = "Apartamento Vista Cristo Redentor", PricePerNight = 450.00m, CityId = 1 },
++                new Property { Id = 3, Name = "Pousada Ipanema Beach", PricePerNight = 280.00m, CityId = 1 },
++                new Property { Id = 4, Name = "Hotel Unique", PricePerNight = 650.00m, CityId = 2 },
++                new Property { Id = 5, Name = "Apartamento Vila Madalena", PricePerNight = 320.00m, CityId = 2 },
++                new Property { Id = 6, Name = "Hotel Alvear Palace", PricePerNight = 420.00m, CityId = 3 },
++                new Property { Id = 7, Name = "Loft em Palermo", PricePerNight = 180.00m, CityId = 3 },
++                new Property { Id = 8, Name = "Pousada Vinícola Andina", PricePerNight = 280.00m, CityId = 4 },
++                new Property { Id = 9, Name = "Hotel Le Meurice", PricePerNight = 950.00m, CityId = 5 },
++                new Property { Id = 10, Name = "Apartamento Champs-Élysées", PricePerNight = 520.00m, CityId = 5 },
++                new Property { Id = 11, Name = "Hotel Negresco", PricePerNight = 580.00m, CityId = 6 },
++                new Property { Id = 12, Name = "Hotel Casa Fuster", PricePerNight = 520.00m, CityId = 7 },
++                new Property { Id = 13, Name = "Apartamento Gòtic", PricePerNight = 290.00m, CityId = 7 },
++                new Property { Id = 14, Name = "Hotel Alfonso XIII", PricePerNight = 380.00m, CityId = 8 },
++                new Property { Id = 15, Name = "Hotel de Russie", PricePerNight = 720.00m, CityId = 9 },
++                new Property { Id = 16, Name = "B&B Trastevere", PricePerNight = 150.00m, CityId = 9 },
++                new Property { Id = 17, Name = "Hotel Brunelleschi", PricePerNight = 480.00m, CityId = 10 },
++                new Property { Id = 18, Name = "Hotel Tivoli Oriente", PricePerNight = 320.00m, CityId = 11 },
++                new Property { Id = 19, Name = "Hostel Alfama", PricePerNight = 85.00m, CityId = 11 },
++                new Property { Id = 20, Name = "Pestana Vintage Porto", PricePerNight = 250.00m, CityId = 12 },
++                new Property { Id = 21, Name = "The Plaza Hotel", PricePerNight = 1200.00m, CityId = 13 },
++                new Property { Id = 22, Name = "Apartamento Manhattan", PricePerNight = 680.00m, CityId = 13 },
++                new Property { Id = 23, Name = "The Setai Miami Beach", PricePerNight = 850.00m, CityId = 14 },
++                new Property { Id = 24, Name = "Fairmont Royal York", PricePerNight = 420.00m, CityId = 15 },
++                new Property { Id = 25, Name = "Hotel Vancouver", PricePerNight = 380.00m, CityId = 16 },
++                new Property { Id = 26, Name = "Grand Fiesta Americana", PricePerNight = 550.00m, CityId = 17 },
++                new Property { Id = 27, Name = "Resort All Inclusive Cancún", PricePerNight = 380.00m, CityId = 17 },
++                new Property { Id = 28, Name = "Rosewood Mayakoba", PricePerNight = 920.00m, CityId = 18 },
++                new Property { Id = 29, Name = "Hotel Singular Santiago", PricePerNight = 350.00m, CityId = 19 },
++                new Property { Id = 30, Name = "Casa Higueras Hotel", PricePerNight = 280.00m, CityId = 20 }
+             );
+         }
+     }
+Index: edu.infinet.nicole.csharp/Services/CityService.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Microsoft.EntityFrameworkCore;\nusing edu.infinet.nicole.csharp.Data;\nusing edu.infinet.nicole.csharp.Models;\n\nnamespace edu.infinet.nicole.csharp.Services\n{\n    public class CityService : ICityService\n    {\n        private readonly CityBreaksContext _context;\n\n        public CityService(CityBreaksContext context)\n        {\n            _context = context;\n        }\n\n        public async Task<List<City>> GetAllAsync()\n        {\n            return await _context.Cities\n                .Include(c => c.Country)\n                .Include(c => c.Properties) \n                .ToListAsync();\n        }\n\n        public async Task<City?> GetByNameAsync(string name)\n        {\n            return await _context.Cities\n                .Include(c => c.Country)\n                .Include(c => c.Properties) \n                .FirstOrDefaultAsync(c => EF.Functions.Collate(c.Name, \"NOCASE\") == name);\n        }\n\n        public async Task AddPropertyAsync(Property property)\n        {\n            _context.Properties.Add(property);\n            await _context.SaveChangesAsync();\n        }\n\n        public async Task<List<City>> GetCitiesForDropdownAsync()\n        {\n            return await _context.Cities\n                .OrderBy(c => c.Name)\n                .ToListAsync();\n        }\n        \n        public async Task<Property?> GetPropertyByIdAsync(int id)\n        {\n            return await _context.Properties.FindAsync(id);\n        }\n\n        public async Task UpdatePropertyAsync(Property property)\n        {\n            _context.Properties.Update(property);\n            await _context.SaveChangesAsync();\n        }\n        \n        public async Task DeletePropertyAsync(int id)\n        {\n            var property = await _context.Properties.FindAsync(id);\n            \n            if (property != null)\n            {\n                property.DeletedAt = DateTime.UtcNow;\n                await _context.SaveChangesAsync();\n            }\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Services/CityService.cs b/edu.infinet.nicole.csharp/Services/CityService.cs
+--- a/edu.infinet.nicole.csharp/Services/CityService.cs	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/edu.infinet.nicole.csharp/Services/CityService.cs	(date 1758335660029)
+@@ -63,5 +63,36 @@
+                 await _context.SaveChangesAsync();
+             }
+         }
++
++        public async Task<List<Property>> GetFilteredAsync(decimal? minPrice, decimal? maxPrice, string? cityName, string? propertyName)
++        {
++            IQueryable<Property> query = _context.Properties
++                .Include(p => p.City)
++                .ThenInclude(c => c.Country);
++
++            if (minPrice.HasValue)
++            {
++                query = query.Where(p => p.PricePerNight >= minPrice.Value);
++            }
++
++            if (maxPrice.HasValue)
++            {
++                query = query.Where(p => p.PricePerNight <= maxPrice.Value);
++            }
++
++            if (!string.IsNullOrWhiteSpace(cityName))
++            {
++                query = query.Where(p => EF.Functions.Collate(p.City.Name, "NOCASE").Contains(cityName));
++            }
++
++            if (!string.IsNullOrWhiteSpace(propertyName))
++            {
++                query = query.Where(p => EF.Functions.Collate(p.Name, "NOCASE").Contains(propertyName));
++            }
++
++            return await query
++                .OrderBy(p => p.Name)
++                .ToListAsync();
++        }
+     }
+ }
+\ No newline at end of file
+Index: edu.infinet.nicole.csharp/Services/ICityService.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using edu.infinet.nicole.csharp.Models;\n\nnamespace edu.infinet.nicole.csharp.Services\n{\n    public interface ICityService\n    {\n        Task<List<City>> GetAllAsync();\n        Task<City?> GetByNameAsync(string name);\n        Task AddPropertyAsync(Property property);\n        Task DeletePropertyAsync(int id);\n        Task<Property?> GetPropertyByIdAsync(int id);\n        Task UpdatePropertyAsync(Property property); \n        Task<List<City>> GetCitiesForDropdownAsync();\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Services/ICityService.cs b/edu.infinet.nicole.csharp/Services/ICityService.cs
+--- a/edu.infinet.nicole.csharp/Services/ICityService.cs	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/edu.infinet.nicole.csharp/Services/ICityService.cs	(date 1758335270340)
+@@ -9,7 +9,9 @@
+         Task AddPropertyAsync(Property property);
+         Task DeletePropertyAsync(int id);
+         Task<Property?> GetPropertyByIdAsync(int id);
+-        Task UpdatePropertyAsync(Property property); 
++        Task UpdatePropertyAsync(Property property);
+         Task<List<City>> GetCitiesForDropdownAsync();
++        
++        Task<List<Property>> GetFilteredAsync(decimal? minPrice, decimal? maxPrice, string? cityName, string? propertyName);
+     }
+ }
+\ No newline at end of file
+Index: edu.infinet.nicole.csharp/Services/IPropertyService.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using edu.infinet.nicole.csharp.Models;\n\nnamespace edu.infinet.nicole.csharp.Services\n{\n    public interface IPropertyService\n    {\n        Task<bool> CreateAsync(Property property);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Services/IPropertyService.cs b/edu.infinet.nicole.csharp/Services/IPropertyService.cs
+--- a/edu.infinet.nicole.csharp/Services/IPropertyService.cs	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/edu.infinet.nicole.csharp/Services/IPropertyService.cs	(date 1758335831837)
+@@ -5,5 +5,9 @@
+     public interface IPropertyService
+     {
+         Task<bool> CreateAsync(Property property);
++        Task<Property?> GetByIdAsync(int id);
++        Task<bool> UpdateAsync(int id, string name, decimal pricePerNight, int cityId);
++        Task<bool> DeleteAsync(int id);
++        Task<List<Property>> GetFilteredAsync(decimal? minPrice, decimal? maxPrice, string? cityName, string? propertyName);
+     }
+ }
+\ No newline at end of file
+Index: edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Metadata.Builders;\nusing edu.infinet.nicole.csharp.Models;\n\nnamespace edu.infinet.nicole.csharp.Data.Configurations\n{\n    public class CityConfiguration : IEntityTypeConfiguration<City>\n    {\n        public void Configure(EntityTypeBuilder<City> builder)\n        {\n            builder.Property(c => c.Name)\n                .HasColumnName(\"CityName\");\n\n            // Dados iniciais\n            builder.HasData(\n                new City { Id = 1, Name = \"Rio de Janeiro\", CountryId = 1 },\n                new City { Id = 2, Name = \"São Paulo\", CountryId = 1 },\n                new City { Id = 3, Name = \"Buenos Aires\", CountryId = 2 },\n                new City { Id = 4, Name = \"Mendoza\", CountryId = 2 },\n                new City { Id = 5, Name = \"Paris\", CountryId = 3 },\n                new City { Id = 6, Name = \"Nice\", CountryId = 3 },\n                new City { Id = 7, Name = \"Barcelona\", CountryId = 4 },\n                new City { Id = 8, Name = \"Sevilha\", CountryId = 4 },\n                new City { Id = 9, Name = \"Roma\", CountryId = 5 },\n                new City { Id = 10, Name = \"Florença\", CountryId = 5 },\n                new City { Id = 11, Name = \"Lisboa\", CountryId = 6 },\n                new City { Id = 12, Name = \"Porto\", CountryId = 6 },\n                new City { Id = 13, Name = \"Nova York\", CountryId = 7 },\n                new City { Id = 14, Name = \"Miami\", CountryId = 7 },\n                new City { Id = 15, Name = \"Toronto\", CountryId = 8 },\n                new City { Id = 16, Name = \"Vancouver\", CountryId = 8 },\n                new City { Id = 17, Name = \"Cancún\", CountryId = 9 },\n                new City { Id = 18, Name = \"Playa del Carmen\", CountryId = 9 },\n                new City { Id = 19, Name = \"Santiago\", CountryId = 10 },\n                new City { Id = 20, Name = \"Valparaíso\", CountryId = 10 }\n            );\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs b/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs
+--- a/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs	(date 1758336842868)
+@@ -11,7 +11,6 @@
+             builder.Property(c => c.Name)
+                 .HasColumnName("CityName");
+ 
+-            // Dados iniciais
+             builder.HasData(
+                 new City { Id = 1, Name = "Rio de Janeiro", CountryId = 1 },
+                 new City { Id = 2, Name = "São Paulo", CountryId = 1 },
+Index: edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs b/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs
+new file mode 100644
+--- /dev/null	(date 1758336348951)
++++ b/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs	(date 1758336348951)
+@@ -0,0 +1,74 @@
++using edu.infinet.nicole.csharp.Models;
++using edu.infinet.nicole.csharp.Services;
++using Microsoft.AspNetCore.Mvc;
++using Microsoft.AspNetCore.Mvc.RazorPages;
++using System.ComponentModel.DataAnnotations;
++
++namespace edu.infinet.nicole.csharp.Pages
++{
++    public class FilterPropertiesModel : PageModel
++    {
++        private readonly IPropertyService _propertyService;
++
++        public FilterPropertiesModel(IPropertyService propertyService)
++        {
++            _propertyService = propertyService;
++        }
++
++        [BindProperty]
++        public FilterCriteria Filters { get; set; } = new();
++
++        public List<Property> Properties { get; set; } = new();
++        public bool HasSearched { get; set; }
++        public string AppliedFiltersText { get; set; } = string.Empty;
++
++        public void OnGet()
++        {
++            
++        }
++
++        public async Task OnPostAsync()
++        {
++            HasSearched = true;
++            
++            Properties = await _propertyService.GetFilteredAsync(
++                Filters.MinPrice,
++                Filters.MaxPrice,
++                Filters.CityName,
++                Filters.PropertyName);
++
++            var appliedFilters = new List<string>();
++
++            if (Filters.MinPrice.HasValue)
++                appliedFilters.Add($"Preço mínimo: {Filters.MinPrice:C}");
++
++            if (Filters.MaxPrice.HasValue)
++                appliedFilters.Add($"Preço máximo: {Filters.MaxPrice:C}");
++
++            if (!string.IsNullOrWhiteSpace(Filters.CityName))
++                appliedFilters.Add($"Cidade: {Filters.CityName}");
++
++            if (!string.IsNullOrWhiteSpace(Filters.PropertyName))
++                appliedFilters.Add($"Propriedade: {Filters.PropertyName}");
++
++            AppliedFiltersText = appliedFilters.Any() 
++                ? string.Join(" | ", appliedFilters)
++                : "Nenhum filtro aplicado";
++        }
++    }
++
++    public class FilterCriteria
++    {
++        [Range(0, 10000, ErrorMessage = "O preço mínimo deve estar entre R$ 0 e R$ 10.000")]
++        public decimal? MinPrice { get; set; }
++
++        [Range(0, 10000, ErrorMessage = "O preço máximo deve estar entre R$ 0 e R$ 10.000")]
++        public decimal? MaxPrice { get; set; }
++
++        [StringLength(100, ErrorMessage = "O nome da cidade deve ter no máximo 100 caracteres")]
++        public string? CityName { get; set; }
++
++        [StringLength(250, ErrorMessage = "O nome da propriedade deve ter no máximo 250 caracteres")]
++        public string? PropertyName { get; set; }
++    }
++}
+\ No newline at end of file
+Index: .idea/.idea.WebApplicationRazorPages/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoGeneratedRunConfigurationManager\">\n    <projectFile profileName=\"http\">edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj</projectFile>\n    <projectFile profileName=\"https\">edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj</projectFile>\n  </component>\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"7a87f428-29fc-44a7-bce3-833568b3e203\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml.cs\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"DpaMonitoringSettings\">\n    <option name=\"firstShow\" value=\"false\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"exercicio_1\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;Nicolegode&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/Nicolegode/tp3-razor-pages.git&quot;,\n    &quot;accountId&quot;: &quot;1c89eb0a-edc7-43e8-a185-ec643256cc81&quot;\n  }\n}</component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/CityBreaksContext.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CountryConfiguration.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/City.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Models/City.cs\" root0=\"SKIP_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Services/CityService.cs\" root0=\"SKIP_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Services/ICityService.cs\" root0=\"SKIP_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MetaFilesCheckinStateConfiguration\" checkMetaFiles=\"true\" />\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"SWEA\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 7\n}</component>\n  <component name=\"ProjectId\" id=\"32v9jJIaPd3YMs420zl0RYiAPxk\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \".NET Launch Settings Profile.edu.infinet.nicole.csharp: http.executor\": \"Run\",\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"settings.editor.selected.configurable\": \"HotReloadSettingsPage\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\" selected=\".NET Launch Settings Profile.edu.infinet.nicole.csharp: http\">\n    <configuration name=\"edu.infinet.nicole.csharp: http\" type=\"LaunchSettings\" factoryName=\".NET Launch Settings Profile\">\n      <option name=\"LAUNCH_PROFILE_PROJECT_FILE_PATH\" value=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj\" />\n      <option name=\"LAUNCH_PROFILE_TFM\" value=\"net8.0\" />\n      <option name=\"LAUNCH_PROFILE_NAME\" value=\"http\" />\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\n      <option name=\"USE_MONO\" value=\"0\" />\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\n      <option name=\"GENERATE_APPLICATIONHOST_CONFIG\" value=\"1\" />\n      <option name=\"SHOW_IIS_EXPRESS_OUTPUT\" value=\"0\" />\n      <option name=\"SEND_DEBUG_REQUEST\" value=\"1\" />\n      <option name=\"ADDITIONAL_IIS_EXPRESS_ARGUMENTS\" value=\"\" />\n      <option name=\"AUTO_ATTACH_CHILDREN\" value=\"0\" />\n      <method v=\"2\">\n        <option name=\"Build\" />\n      </method>\n    </configuration>\n    <configuration name=\"edu.infinet.nicole.csharp: https\" type=\"LaunchSettings\" factoryName=\".NET Launch Settings Profile\">\n      <option name=\"LAUNCH_PROFILE_PROJECT_FILE_PATH\" value=\"$PROJECT_DIR$/edu.infinet.nicole.csharp/edu.infinet.nicole.csharp.csproj\" />\n      <option name=\"LAUNCH_PROFILE_TFM\" value=\"net8.0\" />\n      <option name=\"LAUNCH_PROFILE_NAME\" value=\"https\" />\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\n      <option name=\"USE_MONO\" value=\"0\" />\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\n      <option name=\"GENERATE_APPLICATIONHOST_CONFIG\" value=\"1\" />\n      <option name=\"SHOW_IIS_EXPRESS_OUTPUT\" value=\"0\" />\n      <option name=\"SEND_DEBUG_REQUEST\" value=\"1\" />\n      <option name=\"ADDITIONAL_IIS_EXPRESS_ARGUMENTS\" value=\"\" />\n      <option name=\"AUTO_ATTACH_CHILDREN\" value=\"0\" />\n      <method v=\"2\">\n        <option name=\"Build\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"7a87f428-29fc-44a7-bce3-833568b3e203\" name=\"Changes\" comment=\"\" />\n      <created>1758290312925</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1758290312925</updated>\n      <workItem from=\"1758290313992\" duration=\"10517000\" />\n      <workItem from=\"1758304606126\" duration=\"1237000\" />\n      <workItem from=\"1758309786281\" duration=\"13391000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Exercicio 1 -  Criando o Projeto e Estruturando o DbContext\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758292859863</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758292859863</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"adicionando a tabela\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758314379633</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758314379633</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\".\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758314388031</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758314388031</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Exercicio 3 - Mapeando Relacionamento 1:N entre Países e Cidades\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758315609382</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758315609382</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758315861095</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758315861095</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Exercicio 5 - Aplicando Fluent API para Configuração de Entidades\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758317260645</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758317260645</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Exercicio 6 - Carregando Dados com Seed Data\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758323084532</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758323084532</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758329831250</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758329831250</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Exercício 9 Inserindo uma Nova Propriedade via Formulário\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758330599724</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758330599724</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Exercício 10 - Atualizando Registros com Segurança\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1758333067462</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1758333067462</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"11\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"UnityCheckinConfiguration\" checkUnsavedScenes=\"true\" />\n  <component name=\"UnityProjectConfiguration\" hasMinimizedUI=\"false\" />\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"CLEAR_INITIAL_COMMIT_MESSAGE\" value=\"true\" />\n    <MESSAGE value=\"Exercicio 1 -  Criando o Projeto e Estruturando o DbContext\" />\n    <MESSAGE value=\"adicionando a tabela\" />\n    <MESSAGE value=\".\" />\n    <MESSAGE value=\"Exercicio 3 - Mapeando Relacionamento 1:N entre Países e Cidades\" />\n    <MESSAGE value=\"Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade\" />\n    <MESSAGE value=\"Exercicio 5 - Aplicando Fluent API para Configuração de Entidades\" />\n    <MESSAGE value=\"Exercicio 6 - Carregando Dados com Seed Data\" />\n    <MESSAGE value=\"Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL\" />\n    <MESSAGE value=\"Exercício 9 Inserindo uma Nova Propriedade via Formulário\" />\n    <MESSAGE value=\"Exercício 10 - Atualizando Registros com Segurança\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Exercício 10 - Atualizando Registros com Segurança\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"DotNet_Exception_Breakpoints\">\n          <properties exception=\"System.OperationCanceledException\" breakIfHandledByOtherCode=\"false\" displayValue=\"System.OperationCanceledException\" />\n          <option name=\"timeStamp\" value=\"1\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"DotNet_Exception_Breakpoints\">\n          <properties exception=\"System.Threading.Tasks.TaskCanceledException\" breakIfHandledByOtherCode=\"false\" displayValue=\"System.Threading.Tasks.TaskCanceledException\" />\n          <option name=\"timeStamp\" value=\"2\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"DotNet_Exception_Breakpoints\">\n          <properties exception=\"System.Threading.ThreadAbortException\" breakIfHandledByOtherCode=\"false\" displayValue=\"System.Threading.ThreadAbortException\" />\n          <option name=\"timeStamp\" value=\"3\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml b/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml
+--- a/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml	(revision f000363fd85168318a09b743a497eb3c208971fc)
++++ b/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml	(date 1758336817120)
+@@ -9,18 +9,14 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/DeleteProperty.cshtml.cs" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/CityConfiguration.cs" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Data/Configurations/PropertyConfiguration.cs" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Migrations/CityBreaksContextModelSnapshot.cs" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -59,6 +55,7 @@
+     <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Models/City.cs" root0="SKIP_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Country.cs" root0="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" root0="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Shared/FilterProperties.cshtml.cs" root0="FORCE_HIGHLIGHTING" />
+     <setting file="mock:///Users/nicolegode/RiderProjects/WebApplicationRazorPages/edu.infinet.nicole.csharp/Services/CityService.cs" root0="SKIP_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" root0="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" root0="FORCE_HIGHLIGHTING" />
+@@ -68,7 +65,7 @@
+   </component>
+   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+   <component name="ProblemsViewState">
+-    <option name="selectedTabId" value="SWEA" />
++    <option name="selectedTabId" value="CurrentFile" />
+   </component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 7
+@@ -220,7 +217,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1758333067462</updated>
+     </task>
+-    <option name="localTasksCounter" value="11" />
++    <task id="LOCAL-00011" summary="Exercício 11 - Remoção Lógica com Soft Delete">
++      <option name="closed" value="true" />
++      <created>1758334999674</created>
++      <option name="number" value="00011" />
++      <option name="presentableId" value="LOCAL-00011" />
++      <option name="project" value="LOCAL" />
++      <updated>1758334999674</updated>
++    </task>
++    <option name="localTasksCounter" value="12" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -251,7 +256,8 @@
+     <MESSAGE value="Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL" />
+     <MESSAGE value="Exercício 9 Inserindo uma Nova Propriedade via Formulário" />
+     <MESSAGE value="Exercício 10 - Atualizando Registros com Segurança" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Exercício 10 - Atualizando Registros com Segurança" />
++    <MESSAGE value="Exercício 11 - Remoção Lógica com Soft Delete" />
++    <option name="LAST_COMMIT_MESSAGE" value="Exercício 11 - Remoção Lógica com Soft Delete" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
