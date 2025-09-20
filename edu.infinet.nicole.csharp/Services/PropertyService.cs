@@ -1,0 +1,30 @@
+using Microsoft.EntityFrameworkCore;
+using edu.infinet.nicole.csharp.Data;
+using edu.infinet.nicole.csharp.Models;
+
+namespace edu.infinet.nicole.csharp.Services
+{
+    public class PropertyService : IPropertyService
+    {
+        private readonly CityBreaksContext _context;
+
+        public PropertyService(CityBreaksContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<bool> CreateAsync(Property property)
+        {
+            try
+            {
+                await _context.Properties.AddAsync(property);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+}

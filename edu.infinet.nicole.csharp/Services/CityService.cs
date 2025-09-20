@@ -20,13 +20,26 @@ namespace edu.infinet.nicole.csharp.Services
                 .Include(c => c.Properties)
                 .ToListAsync();
         }
-        
+
         public async Task<City?> GetByNameAsync(string name)
         {
             return await _context.Cities
                 .Include(c => c.Country)
                 .Include(c => c.Properties)
                 .FirstOrDefaultAsync(c => EF.Functions.Collate(c.Name, "NOCASE") == name);
+        }
+
+        public async Task AddPropertyAsync(Property property)
+        {
+            _context.Properties.Add(property);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<City>> GetCitiesForDropdownAsync()
+        {
+            return await _context.Cities
+                .OrderBy(c => c.Name)
+                .ToListAsync();
         }
     }
 }

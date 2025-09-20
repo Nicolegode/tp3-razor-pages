@@ -9,12 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a87f428-29fc-44a7-bce3-833568b3e203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CityDetails.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CreateProperty.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/CreateProperty.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationRazorPages/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Pages/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-shm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/edu.infinet.nicole.csharp/citybreaks.db-wal" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +59,8 @@
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Models/Property.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/CityService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/ICityService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/IPropertyService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/edu.infinet.nicole.csharp/Services/PropertyService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -186,7 +192,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758323084532</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL">
+      <option name="closed" value="true" />
+      <created>1758329831250</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1758329831250</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +228,8 @@
     <MESSAGE value="Exercicio 4 - Cadastrando Propriedades Turísticas Associadas a uma Cidade" />
     <MESSAGE value="Exercicio 5 - Aplicando Fluent API para Configuração de Entidades" />
     <MESSAGE value="Exercicio 6 - Carregando Dados com Seed Data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 6 - Carregando Dados com Seed Data" />
+    <MESSAGE value="Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exercicio 8 -  Consulta Detalhada Usando Parâmetro de URL" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

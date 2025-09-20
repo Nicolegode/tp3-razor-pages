@@ -6,5 +6,6 @@ namespace edu.infinet.nicole.csharp.Services
     {
         Task<List<City>> GetAllAsync();
         Task<City?> GetByNameAsync(string name);
+        Task AddPropertyAsync(Property property);
     }
 }
